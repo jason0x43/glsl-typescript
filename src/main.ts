@@ -8,7 +8,7 @@ const gl = canvas.getContext("webgl")!;
 
 // create our program
 const vertexShader = gl.createShader(gl.VERTEX_SHADER)!;
-gl.shaderSource(vertexShader, cubeVertexShader);
+gl.shaderSource(vertexShader, cubeVertexShader.source);
 gl.compileShader(vertexShader);
 if (!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS)) {
   throw new Error(
@@ -17,7 +17,7 @@ if (!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS)) {
 }
 
 const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER)!;
-gl.shaderSource(fragmentShader, cubeFragmentShader);
+gl.shaderSource(fragmentShader, cubeFragmentShader.source);
 gl.compileShader(fragmentShader);
 if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS)) {
   throw new Error(
@@ -44,10 +44,10 @@ const colors = [
 
 gl.useProgram(program);
 
-const positionAttributeLocation = gl.getAttribLocation(program, "a_position");
-const colorAttributeLocation = gl.getAttribLocation(program, "a_color");
-const modelViewMatrixUniformLocation = gl.getUniformLocation(program, 'u_mvpMatrix');
-const timeUniformLocation = gl.getUniformLocation(program, "u_time");
+const positionAttributeLocation = gl.getAttribLocation(program, cubeVertexShader.attributes.a_position);
+const colorAttributeLocation = gl.getAttribLocation(program, cubeVertexShader.attributes.a_color);
+const modelViewMatrixUniformLocation = gl.getUniformLocation(program, cubeVertexShader.uniforms.u_mvpMatrix);
+const timeUniformLocation = gl.getUniformLocation(program, cubeFragmentShader.uniforms.u_time);
 
 const positionBuffer = gl.createBuffer()!;
 gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
