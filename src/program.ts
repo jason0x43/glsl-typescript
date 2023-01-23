@@ -46,7 +46,7 @@ export function createProgram<
         [key in keyof A]?: ShaderValue<A[key]>;
       };
       uniforms?: {
-        [key in keyof (U1 | U2)]?: ShaderValue<(U1 | U2)[key]>;
+        [key in keyof (U1 & U2)]?: ShaderValue<(U1 & U2)[key]>;
       };
     }
   ) {
