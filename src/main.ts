@@ -47,6 +47,7 @@ gl.useProgram(program);
 const positionAttributeLocation = gl.getAttribLocation(program, "a_position");
 const colorAttributeLocation = gl.getAttribLocation(program, "a_color");
 const modelViewMatrixUniformLocation = gl.getUniformLocation(program, 'u_mvpMatrix');
+const timeUniformLocation = gl.getUniformLocation(program, "u_time");
 
 const positionBuffer = gl.createBuffer()!;
 gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
@@ -97,6 +98,8 @@ gl.clearColor(0, 0, 0, 1);
 
 gl.enable(gl.DEPTH_TEST);
 
+const start = Date.now();
+
 function render() {
   mat4.identity(rot);
   mat4.rotate(rot, rot, angle, [1, 0.5, 0.001]);
@@ -105,6 +108,7 @@ function render() {
     mat4.multiply(transform, world, rot);
 
   gl.uniformMatrix4fv(modelViewMatrixUniformLocation, false, transform);
+  gl.uniform1f(timeUniformLocation, (Date.now() - start) / 1000);
   
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
 
@@ -112,7 +116,6 @@ function render() {
 
   gl.drawElements(gl.TRIANGLES, cube.indices.length, gl.UNSIGNED_SHORT, 0);
 }
-
 
 function frame() {
   angle += 0.01;
